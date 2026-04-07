@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eksperienca · Urban Stay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c1117;--bg2:#111826;--panel:#121a24;--soft:#192433;--line:rgba(255,255,255,.08);
+  --text:#eef3f8;--muted:#9fb0c3;--accent:#d8b36a;--accent2:#8ec5ff;--white:#fff;
+  --radius:22px;--shadow:0 20px 60px rgba(0,0,0,.32);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#0b1016 0%,#101722 100%);color:var(--text);overflow-x:hidden}
+a{text-decoration:none;color:inherit}img{max-width:100%;display:block}button,input,select,textarea{font:inherit}
+.container{width:min(1180px,calc(100% - 2rem));margin-inline:auto}
+.section{padding:84px 0}
+.eyebrow{display:inline-block;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.title{font-size:clamp(2rem,5vw,4.5rem);line-height:1.02;font-weight:700;letter-spacing:-.03em}
+.title span{color:var(--accent)}
+.lead{max-width:650px;color:var(--muted);font-size:1rem;line-height:1.8;margin-top:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;border-radius:999px;padding:.95rem 1.3rem;font-size:.86rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:.28s ease;border:1px solid transparent;cursor:pointer}
+.btn-primary{background:var(--accent);color:#14100a}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(216,179,106,.28)}
+.btn-secondary{background:rgba(255,255,255,.03);color:var(--text);border-color:rgba(255,255,255,.12)}.btn-secondary:hover{background:rgba(255,255,255,.08)}
+.btn-dark{background:#1b2532;color:var(--text);border:1px solid rgba(255,255,255,.08)}
+.badge{display:inline-flex;align-items:center;gap:.5rem;padding:.45rem .8rem;border-radius:999px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);font-size:.75rem;color:#d9e5f2}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(7,11,18,.55);backdrop-filter:blur(18px);border-bottom:1px solid transparent;transition:.3s ease}
+nav.scrolled{background:rgba(7,11,18,.9);border-bottom-color:rgba(255,255,255,.06)}
+.nav-wrap{height:78px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.logo{font-size:1.18rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:1.4rem;list-style:none}
+.nav-links a{font-size:.83rem;color:#d8e1ec;letter-spacing:.12em;text-transform:uppercase;position:relative}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-8px;width:0;height:2px;background:var(--accent);transition:.25s}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-actions{display:flex;align-items:center;gap:.8rem}.nav-book{padding:.78rem 1.05rem}
+.ham{display:none;width:46px;height:46px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);align-items:center;justify-content:center;cursor:pointer}
+.ham span,.ham span::before,.ham span::after{display:block;content:'';width:18px;height:2px;background:#fff;border-radius:2px;position:relative;transition:.25s}.ham span::before{position:absolute;top:-6px}.ham span::after{position:absolute;top:6px}
+.ham.open span{background:transparent}.ham.open span::before{top:0;transform:rotate(45deg)}.ham.open span::after{top:0;transform:rotate(-45deg)}
+.mob{position:fixed;inset:78px 1rem auto 1rem;background:#0d141d;border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:1rem;box-shadow:var(--shadow);display:grid;gap:.5rem;opacity:0;transform:translateY(-10px);visibility:hidden;pointer-events:none;transition:.25s}
+.mob.open{opacity:1;transform:none;visibility:visible;pointer-events:auto}.mob a{padding:.95rem 1rem;border-radius:14px;color:#eef3f8}.mob a.active,.mob a:hover{background:rgba(255,255,255,.05)}
+
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;padding:120px 0 56px;overflow:hidden}
+.hero-media,.page-hero-media{position:absolute;inset:0;background-size:cover;background-position:center}.hero-overlay,.page-hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,12,19,.18) 0%,rgba(8,12,19,.55) 40%,rgba(8,12,19,.92) 100%)}
+.grid-fade{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:60px 60px;mask-image:linear-gradient(180deg,rgba(0,0,0,.6),transparent 85%)}
+.hero-body,.page-hero-body{position:relative;z-index:2;display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:end}
+.hero-copy{max-width:760px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.quick-card{background:rgba(11,17,24,.72);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.08);border-radius:28px;padding:22px;box-shadow:var(--shadow)}
+.quick-card h3{font-size:1rem;margin-bottom:14px}.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:grid;gap:6px}.field label{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.14em}.field input,.field select,.field textarea{width:100%;background:#0d141d;border:1px solid rgba(255,255,255,.09);color:#f6faff;border-radius:16px;padding:.9rem 1rem;outline:none}.field textarea{min-height:120px;resize:vertical}
+.full{grid-column:1/-1}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}.stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:20px;padding:18px}.stat b{display:block;font-size:1.6rem}.stat span{font-size:.82rem;color:var(--muted)}
+
+.cards-3,.cards-4,.gallery-grid,.feature-grid,.experience-grid,.review-grid,.amenity-grid{display:grid;gap:18px}
+.cards-3{grid-template-columns:repeat(3,1fr)} .cards-4{grid-template-columns:repeat(4,1fr)} .feature-grid{grid-template-columns:repeat(3,1fr)} .experience-grid{grid-template-columns:repeat(3,1fr)} .review-grid{grid-template-columns:repeat(3,1fr)} .amenity-grid{grid-template-columns:repeat(4,1fr)}
+.card,.room-card,.feature-card,.exp-card,.review,.amenity,.gallery-item,.offer,.contact-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:24px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+.card-body,.room-body,.feature-body,.exp-body,.review-body,.offer-body,.contact-body{padding:22px}
+.card-media,.room-media,.exp-media,.gallery-item{position:relative;overflow:hidden}.card-media img,.room-media img,.exp-media img,.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .45s}
+.card:hover img,.room-card:hover img,.exp-card:hover img,.gallery-item:hover img{transform:scale(1.06)}
+.card-media{height:240px}.room-media{height:280px}.exp-media{height:250px}.gallery-item{height:240px}
+.kicker{font-size:.74rem;color:var(--accent2);letter-spacing:.14em;text-transform:uppercase}.card h3,.room-card h3,.exp-card h3,.review h3,.offer h3,.contact-card h3{font-size:1.35rem;letter-spacing:-.02em;margin:10px 0 10px}
+.muted{color:var(--muted);line-height:1.75;font-size:.97rem}
+.meta{display:flex;flex-wrap:wrap;gap:.7rem;margin:14px 0 18px}.meta span{font-size:.78rem;color:#d6e0eb;padding:.35rem .65rem;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.05)}
+.price{display:flex;align-items:end;gap:.4rem;font-size:2rem;font-weight:800;letter-spacing:-.03em}.price small{font-size:.85rem;color:var(--muted);font-weight:500;margin-bottom:.35rem}
+.price-row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-top:18px;border-top:1px solid rgba(255,255,255,.08)}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:stretch}
+.panel{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:28px;padding:26px;box-shadow:var(--shadow)}
+.panel.dark{background:linear-gradient(180deg,#111927,#0d131b)}
+.checklist{display:grid;gap:14px;margin-top:18px}.check{display:flex;gap:12px;align-items:flex-start}.check i{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(216,179,106,.15);color:var(--accent);font-style:normal;font-weight:700}
+.feature-card{padding:24px}.feature-card h3{margin-top:12px;font-size:1.1rem}.feature-icon{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;background:rgba(142,197,255,.08);border:1px solid rgba(142,197,255,.14);font-size:1.35rem}
+.gallery-grid{grid-template-columns:2fr 1fr 1fr;grid-auto-rows:230px}.gallery-grid .gallery-item:first-child{grid-row:span 2;height:auto}
+.offer{display:grid;grid-template-columns:1fr 1fr}.offer .card-media{height:100%}
+.review{padding:24px}.stars{color:var(--accent);letter-spacing:.2em;margin-bottom:12px}.review .who{margin-top:18px;color:#d7e3ef;font-weight:700}.review .where{color:var(--muted);font-size:.84rem;margin-top:4px}
+.contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:22px}
+.footer{padding:26px 0;border-top:1px solid rgba(255,255,255,.08);background:#0a0f15}.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:18px}.footer h4{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:#cfd8e3;margin-bottom:12px}.footer p,.footer a{color:var(--muted);line-height:1.9;font-size:.94rem}.footer .logo{margin-bottom:12px;display:inline-block}
+.page-hero{position:relative;padding:150px 0 70px;overflow:hidden}.page-hero-body{grid-template-columns:1fr;align-items:start}.page-hero .lead{max-width:720px}
+.spacer-top{height:78px}
+.fine{font-size:.82rem;color:var(--muted)}
+
+@media (max-width: 1100px){
+  .hero-body{grid-template-columns:1fr}.quick-card{max-width:650px}.cards-4,.amenity-grid{grid-template-columns:repeat(2,1fr)}
+  .cards-3,.feature-grid,.experience-grid,.review-grid,.split,.offer,.contact-grid,.footer-grid{grid-template-columns:1fr 1fr}
+  .gallery-grid{grid-template-columns:1fr 1fr;grid-auto-rows:220px}.gallery-grid .gallery-item:first-child{grid-column:span 2}
+}
+@media (max-width: 760px){
+  .section{padding:68px 0}.nav-links,.nav-actions .btn{display:none}.ham{display:inline-flex}.hero{padding-bottom:34px}.hero-body,.page-hero-body,.cards-3,.cards-4,.feature-grid,.experience-grid,.review-grid,.split,.offer,.contact-grid,.footer-grid,.amenity-grid{grid-template-columns:1fr}
+  .gallery-grid{grid-template-columns:1fr;grid-auto-rows:220px}.gallery-grid .gallery-item:first-child{grid-column:auto;grid-row:auto;height:220px}
+  .quick-grid,.stat-row{grid-template-columns:1fr}.hero-actions{flex-direction:column;align-items:stretch}.btn{width:100%}.title{font-size:clamp(2.1rem,10vw,3.5rem)}
+  .container{width:min(100% - 1.1rem,1180px)}.nav-wrap{height:72px}.spacer-top{height:72px}.panel,.quick-card,.feature-card,.review,.card-body,.room-body,.exp-body{padding:18px}
+  .card-media,.room-media,.exp-media,.gallery-item{height:220px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-wrap">
+    <a class="logo" href="index.html">Urban <span>Stay</span></a>
+    <ul class="nav-links">
+      <li><a class="" href="index.html">Kryefaqja</a></li>
+      <li><a class="" href="dhomat.html">Dhomat</a></li>
+      <li><a class="" href="restoranti.html">Restorant & Bar</a></li>
+      <li><a class="active" href="eksperiencat.html">Eksperienca</a></li>
+      <li><a class="" href="galeria.html">Galeria</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a class="btn btn-primary nav-book" href="rezervo.html">Rezervo</a>
+    </div>
+    <button class="ham" aria-label="menu"><span></span></button>
+  </div>
+  <div class="mob container">
+    <a class="" href="index.html">Kryefaqja</a>
+    <a class="" href="dhomat.html">Dhomat</a>
+    <a class="" href="restoranti.html">Restorant & Bar</a>
+    <a class="active" href="eksperiencat.html">Eksperienca</a>
+    <a class="" href="galeria.html">Galeria</a>
+    <a class="btn btn-primary" href="rezervo.html">Rezervo Tani</a>
+  </div>
+</nav>
+
+
+<section class="page-hero">
+  <div class="page-hero-media" style="background-image:url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1800&q=80')"></div>
+  <div class="page-hero-overlay"></div><div class="grid-fade"></div>
+  <div class="container page-hero-body">
+    <span class="eyebrow">Eksperienca</span>
+    <h1 class="title">Më shumë se hotel: një bazë elegante për të <span>zbuluar qytetin</span></h1>
+    <p class="lead">Kjo faqe i jep hotelit urban dimensionin e eksperiencës: city walk, art, gastronomi dhe shërbime concierge për qëndrime më të pasura.</p>
+  </div>
+</section>
+<section class="section"><div class="container experience-grid">
+  <article class="exp-card"><div class="exp-media"><img src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&w=1200&q=80"></div><div class="exp-body"><div class="kicker">City Walk</div><h3>Qendra Historike</h3><p class="muted">Shëtitje me guida të shkurtra për pikat kryesore të qytetit.</p></div></article>
+  <article class="exp-card"><div class="exp-media"><img src="https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1200&q=80"></div><div class="exp-body"><div class="kicker">Taste</div><h3>Gastronomy Route</h3><p class="muted">Sugjerime për darkë, verë dhe ambiente lokale të kuruara.</p></div></article>
+  <article class="exp-card"><div class="exp-media"><img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80"></div><div class="exp-body"><div class="kicker">Business</div><h3>Meeting Support</h3><p class="muted">Transfer, coworking, printime dhe ndihmë për evente të vogla.</p></div></article>
+</div></section>
+<section class="section"><div class="container split">
+  <div class="panel"><span class="eyebrow">Concierge</span><h2 class="title" style="font-size:clamp(1.7rem,4vw,2.8rem)">Rekomandime të shpejta për një stay më të zgjuar</h2><div class="checklist"><div class="check"><i>✓</i><div><strong>Airport transfer</strong><div class="fine">Mundësi prenotimi paraprak.</div></div></div><div class="check"><i>✓</i><div><strong>Restaurant bookings</strong><div class="fine">Sugjerime sipas stilit që preferon.</div></div></div><div class="check"><i>✓</i><div><strong>Late checkout</strong><div class="fine">Sipas disponueshmërisë.</div></div></div></div></div>
+  <div class="panel dark"><span class="eyebrow">Urban rhythm</span><p class="lead" style="max-width:none;margin-top:0">Ky seksion është ideal për hotel qyteti sepse i jep vlerë shtesë faqes: jo vetëm dhomë dhe restorant, por edhe mënyra si hoteli të ndihmon ta përjetosh qytetin më mirë.</p><div style="margin-top:20px"><a class="btn btn-primary" href="rezervo.html">Planifiko Qëndrimin</a></div></div>
+</div></section>
+
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <a class="logo" href="index.html">Urban <span>Stay</span></a>
+      <p>Një hotel urban me stil modern, lokacion qendror, dhoma elegante dhe eksperienca të kuruara për qytetarë dhe udhëtarë.</p>
+    </div>
+    <div>
+      <h4>Menu</h4>
+      <p><a href="index.html">Kryefaqja</a><br><a href="dhomat.html">Dhomat</a><br><a href="restoranti.html">Restorant & Bar</a></p>
+    </div>
+    <div>
+      <h4>Eksperienca</h4>
+      <p><a href="eksperiencat.html">City Tours</a><br><a href="galeria.html">Galeria</a><br><a href="rezervo.html">Rezervo</a></p>
+    </div>
+    <div>
+      <h4>Kontakt</h4>
+      <p>Rruga Qendrore 21<br>Tiranë, Shqipëri<br>+355 69 000 0000<br>hello@urbanstay.al</p>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+const nav=document.querySelector('nav');
+const ham=document.querySelector('.ham');
+const mob=document.querySelector('.mob');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>10));
+if(ham){ham.addEventListener('click',()=>{ham.classList.toggle('open');mob.classList.toggle('open');});}
+for(const a of document.querySelectorAll('.mob a')){a.addEventListener('click',()=>{ham.classList.remove('open');mob.classList.remove('open');});}
+</script>
+
+</body></html>
